@@ -1,18 +1,18 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: GitHub Actions sarut.me
+run-name: Sarut.me 🚀
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  run_pull:
+    name: run pull
     runs-on: ubuntu-latest
+    
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: install ssh keys
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/html/ && git clone https://github.com/Sarut148/sarut.me.git && cd sarut.me && git checkout main && git pull && exit"
+    - name: cleanup
+      run: rm -rf ~/.ssh
