@@ -22,6 +22,10 @@ section .loading {
   z-index: -1;
 }
 
+.page {
+  display: none;
+}
+
 header {
   position: absolute;
   top: 0%;
