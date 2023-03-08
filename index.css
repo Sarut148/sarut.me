@@ -94,5 +94,5 @@ section img {
 .text {
   position: absolute;
   z-index: 1;
-  color: black;
+  color: white;
 }
