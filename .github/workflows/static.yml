@@ -5,7 +5,6 @@ jobs:
   run_pull:
     name: run pull
     runs-on: ubuntu-latest
-    
     steps:
     - name: install ssh keys
       run: |
@@ -13,6 +12,6 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/html/ && git clone https://github.com/Sarut148/sarut.me.git && cd sarut.me && git checkout main && git pull && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
     - name: cleanup
       run: rm -rf ~/.ssh
