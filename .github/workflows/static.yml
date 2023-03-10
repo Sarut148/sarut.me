@@ -15,3 +15,28 @@ jobs:
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
     - name: cleanup
       run: rm -rf ~/.ssh
+
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Add Private Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+      - name: Copy Files to Server
+        run: |
+          scp -r . deploy@18.141.172.211:~/var/www/html/sarut.me
+      - name: Restart Server
+        run: ssh deploy@18.141.172.211 'sudo systemctl restart nginx'
