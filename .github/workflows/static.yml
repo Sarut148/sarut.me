@@ -17,6 +17,6 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
       - name: Copy Files to Server
         run: |
-          scp -r . deploy@18.141.172.211:~/var/www/html/sarut.me
+          ssh -r . deploy@18.141.172.211:~/var/www/html/sarut.me
       - name: Restart Server
         run: ssh deploy@18.141.172.211 'sudo systemctl restart nginx'
